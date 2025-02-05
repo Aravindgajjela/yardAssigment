@@ -29,7 +29,7 @@
                 }
                 
                 .task-list tr.completed td {
-                  background-color: #d4edda; /* Light Green */
+                  background-color: #d4edda; /* Light Green for completed tasks */
                 }
                 
                 .task-list tr:nth-child(even) {
@@ -44,12 +44,64 @@
                   cursor: pointer;
                 }
                 
-                /* Add a 'List' icon */
-                .task-list::before {
-                  content: "📋";
-                  font-size: 24px;
-                  margin-right: 10px;
-                  vertical-align: middle;
-                  color: #FF6347;
+                .task-list button {
+                  padding: 6px 12px;
+                  background-color: #FF6347; /* Tomato Red */
+                  color: white;
+                  border: none;
+                  border-radius: 4px;
+                  cursor: pointer;
+                  font-size: 14px;
+                }
+                
+                .task-list button:hover {
+                  background-color: #e5533c; /* Darker shade of Tomato */
+                }
+                
+                .task-list .task-item {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 10px;
+                }
+                
+                .task-list .task-item input[type="text"],
+                .task-list .task-item textarea,
+                .task-list .task-item input[type="date"] {
+                  padding: 8px;
+                  font-size: 14px;
+                  border-radius: 4px;
+                  border: 1px solid #ddd;
+                  width: 100%;
+                }
+                
+                .task-list .task-item button {
+                  margin-left: 5px;
+                }
+                
+                /* For the table layout and responsiveness */
+                @media (max-width: 768px) {
+                  .task-list th, .task-list td {
+                    padding: 8px 10px;
+                    font-size: 14px;
+                  }
+                
+                  .task-list button {
+                    padding: 4px 8px;
+                    font-size: 12px;
+                  }
+                
+                  .task-list input[type="checkbox"] {
+                    margin: 0;
+                  }
+                
+                  .task-list .task-item {
+                    flex-direction: column;
+                    align-items: flex-start;
+                  }
+                
+                  .task-list .task-item button {
+                    margin-top: 10px;
+                  }
                 }
                 

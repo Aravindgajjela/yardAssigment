@@ -11,7 +11,6 @@ class TaskItem extends Component {
   };
 
   componentDidMount() {
-    // Ensure checkbox status is updated on page load
     this.setState({ completed: this.props.task.completed });
   }
 
@@ -27,7 +26,7 @@ class TaskItem extends Component {
 
     if (response.ok) {
       this.setState({ completed: newStatus });
-      this.props.onUpdate(_id, { completed: newStatus }); // ✅ Update Parent
+      this.props.onUpdate(_id, { completed: newStatus });
     }
   };
 
@@ -40,7 +39,7 @@ class TaskItem extends Component {
     });
 
     if (response.ok) {
-      this.props.onDelete(_id); // ✅ Remove task from UI
+      this.props.onDelete(_id);
     }
   };
 
@@ -64,7 +63,7 @@ class TaskItem extends Component {
 
     if (response.ok) {
       this.setState({ isEditing: false });
-      this.props.onUpdate(_id, { title, description, dueDate }); // ✅ Update Parent
+      this.props.onUpdate(_id, { title, description, dueDate });
     }
   };
 
@@ -72,35 +71,22 @@ class TaskItem extends Component {
     const { title, description, dueDate, completed, isEditing } = this.state;
 
     return (
-      <div className={`task-item ${completed ? 'completed' : ''}`}>
-        {isEditing ? (
-          <>
-            <input type="text" name="title" value={title} onChange={this.handleEditChange} />
-            <textarea name="description" value={description} onChange={this.handleEditChange} />
-            <input type="date" name="dueDate" value={dueDate} onChange={this.handleEditChange} />
-            <button onClick={this.saveEdit}>Save</button>
-          </>
-        ) : (
-          <>
-            <h3>{title}</h3>
-            <p>{description}</p>
-            <p>{dueDate}</p>
-
-            {/* ✅ Checkbox is now fully functional */}
-            <label>
-              <input
-                type="checkbox"
-                checked={completed}
-                onChange={this.toggleCompletion}
-              />
-              {completed ? 'Completed' : 'Complete'} {/* Toggle between Complete and Completed */}
-            </label>
-
-            <button onClick={this.toggleEdit}>Edit</button>
-            <button onClick={this.deleteTask}>Delete</button>
-          </>
-        )}
-      </div>
+      <tr className={`task-item ${completed ? 'completed' : ''}`}>
+        <td>{this.props.index + 1}</td> {/* Serial Number */}
+        <td>{isEditing ? <input type="text" name="title" value={title} onChange={this.handleEditChange} /> : title}</td>
+        <td>{isEditing ? <textarea name="description" value={description} onChange={this.handleEditChange} /> : description}</td>
+        <td>{isEditing ? <input type="date" name="dueDate" value={dueDate} onChange={this.handleEditChange} /> : dueDate}</td>
+        <td>
+          <label>
+            <input type="checkbox" checked={completed} onChange={this.toggleCompletion} />
+            {completed ? 'Completed' : 'Complete'}
+          </label>
+        </td>
+        <td>
+          {isEditing ? <button onClick={this.saveEdit}>Save</button> : <button onClick={this.toggleEdit}>Edit</button>}
+          <button onClick={this.deleteTask}>Delete</button>
+        </td>
+      </tr>
     );
   }
 }
