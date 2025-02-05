@@ -1,5 +1,6 @@
 // /components/TaskForm.js
 import React, { Component } from 'react';
+import '../styles/TaskForm.css';
 
 class TaskForm extends Component {
   state = {
@@ -33,28 +34,9 @@ class TaskForm extends Component {
     const { title, description, dueDate } = this.state;
     return (
       <form className="task-form" onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          name="title"
-          value={title}
-          onChange={this.handleChange}
-          placeholder="Task Title"
-          required
-        />
-        <textarea
-          name="description"
-          value={description}
-          onChange={this.handleChange}
-          placeholder="Task Description"
-          required
-        />
-        <input
-          type="date"
-          name="dueDate"
-          value={dueDate}
-          onChange={this.handleChange}
-          required
-        />
+        <input type="text" name="title" value={title} onChange={this.handleChange} placeholder="Task Title" required />
+        <textarea name="description" value={description} onChange={this.handleChange} placeholder="Task Description" required />
+        <input type="date" name="dueDate" value={dueDate} onChange={this.handleChange} required />
         <button type="submit">Add Task</button>
       </form>
     );

@@ -1,0 +1,55 @@
+/* Task List Styles */
+.task-list {
+                  width: 100%;
+                  margin-top: 20px;
+                  font-family: 'Roboto', sans-serif;
+                }
+                
+                .task-list table {
+                  width: 100%;
+                  border-collapse: collapse;
+                  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                }
+                
+                .task-list th,
+                .task-list td {
+                  padding: 12px 15px;
+                  text-align: left;
+                  border: 1px solid #ddd;
+                  font-size: 16px;
+                }
+                
+                .task-list th {
+                  background-color: #FF6347; /* Tomato Red */
+                  color: white;
+                }
+                
+                .task-list td {
+                  background-color: #f9f9f9;
+                }
+                
+                .task-list tr.completed td {
+                  background-color: #d4edda; /* Light Green */
+                }
+                
+                .task-list tr:nth-child(even) {
+                  background-color: #f1f1f1;
+                }
+                
+                .task-list tr:hover {
+                  background-color: #ffebcd; /* Light Bisque */
+                }
+                
+                .task-list input[type="checkbox"] {
+                  cursor: pointer;
+                }
+                
+                /* Add a 'List' icon */
+                .task-list::before {
+                  content: "📋";
+                  font-size: 24px;
+                  margin-right: 10px;
+                  vertical-align: middle;
+                  color: #FF6347;
+                }
+                
