@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import EditTaskModal from "./EditTaskModal"; // Import modal component
-import "../styles/TaskItem.css";
+
 
 class TaskItem extends Component {
   constructor(props) {
