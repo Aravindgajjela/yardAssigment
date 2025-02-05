@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TaskItem from "./TaskItem"; // Assuming you have TaskItem component
-import "../styles/TaskList.css";
+
 
 class TaskList extends Component {
   constructor(props) {
