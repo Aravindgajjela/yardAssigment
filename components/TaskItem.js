@@ -1,92 +1,112 @@
-import React, { Component } from 'react';
-import '../styles/TaskItem.css';
+import React, { Component } from "react";
+import EditTaskModal from "./EditTaskModal"; // Import modal component
+import "../styles/TaskItem.css";
 
 class TaskItem extends Component {
-  state = {
-    completed: this.props.task.completed,
-    isEditing: false,
-    title: this.props.task.title,
-    description: this.props.task.description,
-    dueDate: this.props.task.dueDate,
-  };
-
-  componentDidMount() {
-    this.setState({ completed: this.props.task.completed });
+  constructor(props) {
+    super(props);
+    this.state = {
+      completed: props.task.completed,
+      showModal: false, // State to control modal visibility
+    };
   }
 
   toggleCompletion = async () => {
     const { _id } = this.props.task;
     const newStatus = !this.state.completed;
 
-    const response = await fetch('/api/tasks', {
-      method: 'PUT',
-      body: JSON.stringify({ id: _id, completed: newStatus }),
-      headers: { 'Content-Type': 'application/json' },
-    });
+    try {
+      const response = await fetch("/api/tasks", {
+        method: "PUT",
+        body: JSON.stringify({ id: _id, completed: newStatus }),
+        headers: { "Content-Type": "application/json" },
+      });
 
-    if (response.ok) {
-      this.setState({ completed: newStatus });
-      this.props.onUpdate(_id, { completed: newStatus });
+      if (response.ok) {
+        this.setState({ completed: newStatus });
+        this.props.onUpdate(_id, { completed: newStatus });
+      }
+    } catch (error) {
+      console.error("Error updating task:", error);
     }
   };
 
   deleteTask = async () => {
     const { _id } = this.props.task;
-    const response = await fetch('/api/tasks', {
-      method: 'DELETE',
-      body: JSON.stringify({ taskId: _id }),
-      headers: { 'Content-Type': 'application/json' },
-    });
 
-    if (response.ok) {
-      this.props.onDelete(_id);
+    try {
+      const response = await fetch("/api/tasks", {
+        method: "DELETE",
+        body: JSON.stringify({ taskId: _id }),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.ok) {
+        this.props.onDelete(_id);
+      }
+    } catch (error) {
+      console.error("Error deleting task:", error);
     }
   };
 
-  toggleEdit = () => {
-    this.setState({ isEditing: !this.state.isEditing });
+  toggleModal = () => {
+    this.setState({ showModal: !this.state.showModal });
   };
 
-  handleEditChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  saveEdit = async () => {
+  handleSave = async (updatedTask) => {
     const { _id } = this.props.task;
-    const { title, description, dueDate } = this.state;
 
-    const response = await fetch('/api/tasks', {
-      method: 'PUT',
-      body: JSON.stringify({ id: _id, title, description, dueDate }),
-      headers: { 'Content-Type': 'application/json' },
-    });
+    try {
+      const response = await fetch("/api/tasks", {
+        method: "PUT",
+        body: JSON.stringify({ id: _id, ...updatedTask }),
+        headers: { "Content-Type": "application/json" },
+      });
 
-    if (response.ok) {
-      this.setState({ isEditing: false });
-      this.props.onUpdate(_id, { title, description, dueDate });
+      if (response.ok) {
+        this.setState({ showModal: false });
+        this.props.onUpdate(_id, updatedTask);
+      }
+    } catch (error) {
+      console.error("Error saving task:", error);
     }
   };
 
   render() {
-    const { title, description, dueDate, completed, isEditing } = this.state;
+    const { task, index } = this.props;
+    const { completed, showModal } = this.state;
 
     return (
-      <tr className={`task-item ${completed ? 'completed' : ''}`}>
-        <td>{this.props.index + 1}</td> {/* Serial Number */}
-        <td>{isEditing ? <input type="text" name="title" value={title} onChange={this.handleEditChange} /> : title}</td>
-        <td>{isEditing ? <textarea name="description" value={description} onChange={this.handleEditChange} /> : description}</td>
-        <td>{isEditing ? <input type="date" name="dueDate" value={dueDate} onChange={this.handleEditChange} /> : dueDate}</td>
-        <td>
-          <label>
-            <input type="checkbox" checked={completed} onChange={this.toggleCompletion} />
-            {completed ? 'Completed' : 'Complete'}
-          </label>
-        </td>
-        <td>
-          {isEditing ? <button onClick={this.saveEdit}>Save</button> : <button onClick={this.toggleEdit}>Edit</button>}
-          <button onClick={this.deleteTask}>Delete</button>
-        </td>
-      </tr>
+      <>
+        <tr className={completed ? "completed" : ""}>
+          <td>{index + 1}</td>
+          <td>{task.title}</td>
+          <td>{task.description}</td>
+          <td>{task.dueDate}</td>
+          <td>
+            <label>
+              <input
+                type="checkbox"
+                checked={completed}
+                onChange={this.toggleCompletion}
+              />
+              {completed ? "Completed" : "Incomplete"}
+            </label>
+          </td>
+          <td>
+            <button onClick={this.toggleModal}>Edit</button>
+            <button onClick={this.deleteTask}>Delete</button>
+          </td>
+        </tr>
+
+        {showModal && (
+          <EditTaskModal
+            task={task}
+            onSave={this.handleSave}
+            onClose={this.toggleModal}
+          />
+        )}
+      </>
     );
   }
 }
