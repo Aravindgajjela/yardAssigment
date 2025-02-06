@@ -3,12 +3,9 @@ import TaskList from "../components/TaskList";
 import TaskForm from "../components/TaskForm";
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tasks: [], // Store all tasks in state
-    };
-  }
+  state = {
+    tasks: [], // Store all tasks in state
+  };
 
   componentDidMount() {
     this.fetchTasks(); // Load tasks when the page loads
@@ -26,23 +23,21 @@ class Home extends Component {
   };
 
   handleTaskAdded = (newTask) => {
-    this.setState((prevState) => ({
-      tasks: [...prevState.tasks, newTask],
-    }));
+    this.setState({ tasks: [...this.state.tasks, newTask] });
   };
 
   handleTaskUpdated = (taskId, updatedData) => {
-    this.setState((prevState) => ({
-      tasks: prevState.tasks.map((task) =>
+    this.setState({
+      tasks: this.state.tasks.map((task) =>
         task._id === taskId ? { ...task, ...updatedData } : task
       ),
-    }));
+    });
   };
 
   handleTaskDeleted = (taskId) => {
-    this.setState((prevState) => ({
-      tasks: prevState.tasks.filter((task) => task._id !== taskId),
-    }));
+    this.setState({
+      tasks: this.state.tasks.filter((task) => task._id !== taskId),
+    });
   };
 
   render() {
