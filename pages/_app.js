@@ -6,4 +6,4 @@ function MyApp({ Component, pageProps }) {
     return <Component {...pageProps} />;
 }
 
-export default MyApp; // ✅ Ensure this is present
+export default MyApp; 

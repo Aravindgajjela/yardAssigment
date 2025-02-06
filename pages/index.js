@@ -4,11 +4,11 @@ import TaskForm from "../components/TaskForm";
 
 class Home extends Component {
   state = {
-    tasks: [], // Store all tasks in state
+    tasks: [], 
   };
 
   componentDidMount() {
-    this.fetchTasks(); // Load tasks when the page loads
+    this.fetchTasks(); 
   }
 
   fetchTasks = async () => {
